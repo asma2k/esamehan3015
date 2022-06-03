@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="b437c0c7-0c82-45d8-b93b-611cf40172fb" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="errorhandlingpoc5Flow" doc:id="cf11f022-492e-470a-bb92-28ce7e51cba1" >
+		<http:listener doc:name="Listener" doc:id="8a4e2c37-349d-4a62-ae5e-78908fc7b4be" config-ref="HTTP_Listener_config" path="/test"/>
+		<logger level="INFO" doc:name="Logger" doc:id="9f5224ed-fae6-4a27-8f18-8c7a4b043530" message="start flow"/>
+		<http:request method="GET" doc:name="Request" doc:id="695c362c-436e-40f0-948e-c41fd17601af" url="http://localhost:8082/test"/>
+		<logger level="INFO" doc:name="Logger" doc:id="35459338-afe1-424e-8657-3bf6bb9ab191" message="end flow"/>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="f62b50e2-3b93-4800-a1e9-1da6106fda97" >
+				<logger level="INFO" doc:name="Logger" doc:id="b12f3058-4d60-47fe-9b14-9889f6ca9134" />
+				<logger level="INFO" doc:name="Logger" doc:id="358e6220-8ece-4549-b286-b25f6c9d76fa" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>
